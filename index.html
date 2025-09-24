@@ -1,0 +1,232 @@
+<!DOCTYPE html>
+<html lang="th">
+<head>
+  <meta charset="UTF-8">
+  <title>สื่อการสอน: ATX Power Supply</title>
+  <style>
+    body {
+      font-family: "Kanit", sans-serif;
+      background: #f0f8ff;
+      color: #333;
+      margin: 0;
+      padding: 0;
+    }
+    header {
+      background: #004d99;
+      color: white;
+      padding: 20px;
+      text-align: center;
+      font-size: 1.5rem;
+      font-weight: bold;
+    }
+    .container {
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: center;
+      padding: 20px;
+    }
+    .diagram {
+      flex: 1;
+      min-width: 300px;
+      text-align: center;
+    }
+    .diagram img {
+      max-width: 100%;
+      height: auto;
+      border-radius: 10px;
+      box-shadow: 0 4px 8px rgba(0,0,0,0.2);
+    }
+    .info {
+      flex: 1;
+      min-width: 280px;
+      padding: 20px;
+      background: #ffffff;
+      border-radius: 12px;
+      box-shadow: 0 4px 8px rgba(0,0,0,0.15);
+      margin: 10px;
+    }
+    .pin {
+      display: inline-block;
+      margin: 5px;
+      padding: 8px 12px;
+      border-radius: 8px;
+      cursor: pointer;
+      font-size: 0.9rem;
+      font-weight: bold;
+      border: 1px solid #ccc;
+      background: #fafafa;
+      transition: 0.2s;
+    }
+    .pin:hover {
+      background: #ffecb3;
+      transform: scale(1.05);
+    }
+    .details {
+      margin-top: 20px;
+      padding: 15px;
+      background: #e6f7ff;
+      border-radius: 10px;
+      min-height: 100px;
+    }
+    .quiz {
+      margin-top: 30px;
+      padding: 20px;
+      background: #fff3cd;
+      border-radius: 12px;
+      box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+    }
+    .quiz h3 {
+      margin-top: 0;
+    }
+    .option {
+      display: block;
+      margin: 8px 0;
+      padding: 10px;
+      border-radius: 8px;
+      background: #f8f9fa;
+      border: 1px solid #ccc;
+      cursor: pointer;
+      transition: 0.2s;
+    }
+    .option:hover {
+      background: #e2e6ea;
+    }
+    .result {
+      margin-top: 15px;
+      padding: 10px;
+      border-radius: 8px;
+    }
+    .correct {
+      background: #d4edda;
+      color: #155724;
+    }
+    .wrong {
+      background: #f8d7da;
+      color: #721c24;
+    }
+    .score {
+      margin-top: 15px;
+      font-weight: bold;
+      color: #004085;
+    }
+    button {
+      margin-top: 15px;
+      padding: 10px 15px;
+      font-size: 1rem;
+      border-radius: 8px;
+      border: none;
+      background: #007bff;
+      color: white;
+      cursor: pointer;
+    }
+    button:hover {
+      background: #0056b3;
+    }
+  </style>
+</head>
+<body>
+  <header>สื่อการสอน: Computer Power Supply – ATX Main Power Connectors</header>
+
+  <div class="container">
+    <!-- รูปแผนผัง -->
+    <div class="diagram">
+      <img src="atx.jpg" alt="ATX Power Supply Diagram">
+      <p><small>แผนผังขั้วต่อไฟ ATX (24 Pins)</small></p>
+    </div>
+
+    <!-- ส่วนข้อมูล -->
+    <div class="info">
+      <h3>เลือก Pin เพื่อดูรายละเอียด</h3>
+      <div id="pins">
+        <span class="pin" onclick="showInfo('+3.3V','สีส้ม','ใช้จ่ายไฟให้ชิปเซ็ตและแรม')">+3.3V</span>
+        <span class="pin" onclick="showInfo('+5V','สีแดง','ใช้จ่ายไฟให้วงจรดิจิทัลและอุปกรณ์ทั่วไป')">+5V</span>
+        <span class="pin" onclick="showInfo('+12V','สีเหลือง','ใช้จ่ายไฟให้มอเตอร์ ฮาร์ดดิสก์ พัดลม และการ์ดจอ')">+12V</span>
+        <span class="pin" onclick="showInfo('Ground','สีดำ','สายกราวด์หรือขั้วลบของระบบ')">Ground</span>
+        <span class="pin" onclick="showInfo('PS-On','สีเขียว','ใช้สั่งเปิด/ปิด Power Supply โดยการต่อกราวด์')">PS-On</span>
+        <span class="pin" onclick="showInfo('Power Good','สีเทา','สัญญาณแจ้งว่าพาวเวอร์ทำงานปกติ')">Power Good</span>
+        <span class="pin" onclick="showInfo('+5V Standby','สีม่วง','จ่ายไฟแม้ปิดเครื่อง ใช้ในวงจรเปิดเครื่อง')">+5V Standby</span>
+        <span class="pin" onclick="showInfo('-12V','สีน้ำเงิน','ใช้ในพอร์ตอนุกรม RS-232 และวงจรพิเศษ')">-12V</span>
+      </div>
+      <div class="details" id="details">
+        <em>คลิกที่ปุ่มด้านบนเพื่อดูข้อมูลของ Pin</em>
+      </div>
+
+      <!-- Quiz Section -->
+      <div class="quiz">
+        <h3>แบบทดสอบความเข้าใจ</h3>
+        <button onclick="startQuiz()">เริ่มทำแบบทดสอบ</button>
+        <div id="quizArea"></div>
+        <div class="score" id="scoreBoard"></div>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    const data = [
+      {q:"สายสีแดงคือแรงดันไฟกี่โวลต์?", options:["+3.3V","+5V","+12V"], answer:"+5V"},
+      {q:"สายสีเหลืองคือแรงดันไฟกี่โวลต์?", options:["+5V","+12V","-12V"], answer:"+12V"},
+      {q:"สายสีส้มให้ไฟแรงดันเท่าไร?", options:["+3.3V","+5V","+12V"], answer:"+3.3V"},
+      {q:"สายสีดำมีหน้าที่อะไร?", options:["ไฟ +5V","Ground (กราวด์)","PS-On"], answer:"Ground (กราวด์)"},
+      {q:"สายสีเขียว (PS-On) ใช้ทำอะไร?", options:["จ่ายไฟ +12V","สั่งเปิด/ปิด PSU","จ่ายไฟ +5V"], answer:"สั่งเปิด/ปิด PSU"},
+      {q:"สายสีม่วง (+5VSB) ใช้ทำอะไร?", options:["จ่ายไฟเมื่อปิดเครื่อง","สั่งเปิด PSU","จ่ายไฟให้การ์ดจอ"], answer:"จ่ายไฟเมื่อปิดเครื่อง"},
+      {q:"สายสีน้ำเงิน (-12V) ใช้ในงานใด?", options:["พอร์ตอนุกรม RS-232","การ์ดจอ","แรม"], answer:"พอร์ตอนุกรม RS-232"}
+    ];
+
+    let currentQuestion = 0;
+    let score = 0;
+
+    function showInfo(voltage, color, desc) {
+      document.getElementById("details").innerHTML = `
+        <h4>${voltage}</h4>
+        <p><b>สีสาย:</b> ${color}</p>
+        <p><b>การใช้งาน:</b> ${desc}</p>
+      `;
+    }
+
+    function startQuiz() {
+      currentQuestion = 0;
+      score = 0;
+      document.getElementById("scoreBoard").innerHTML = "";
+      showQuestion();
+    }
+
+    function showQuestion() {
+      const q = data[currentQuestion];
+      let html = `<p><b>ข้อที่ ${currentQuestion+1}:</b> ${q.q}</p>`;
+      q.options.forEach(opt=>{
+        html += `<div class="option" onclick="checkAnswer('${opt}')">${opt}</div>`;
+      });
+      document.getElementById("quizArea").innerHTML = html + `<div id="result"></div>`;
+    }
+
+    function checkAnswer(selected) {
+      const q = data[currentQuestion];
+      let result = document.getElementById("result");
+
+      if (selected === q.answer) {
+        score++;
+        result.innerHTML = `<div class="result correct">✅ ถูกต้อง! คำตอบคือ ${q.answer}</div>`;
+      } else {
+        result.innerHTML = `<div class="result wrong">❌ ไม่ถูกต้อง คำตอบที่ถูกคือ ${q.answer}</div>`;
+      }
+
+      // ปุ่มข้อต่อไป
+      if (currentQuestion < data.length - 1) {
+        result.innerHTML += `<button onclick="nextQuestion()">ข้อต่อไป ▶</button>`;
+      } else {
+        result.innerHTML += `<button onclick="finishQuiz()">สรุปคะแนน</button>`;
+      }
+    }
+
+    function nextQuestion() {
+      currentQuestion++;
+      showQuestion();
+    }
+
+    function finishQuiz() {
+      document.getElementById("quizArea").innerHTML = "";
+      document.getElementById("scoreBoard").innerHTML = `🎯 คุณได้ ${score} คะแนน จากทั้งหมด ${data.length} ข้อ`;
+    }
+  </script>
+</body>
+</html>
